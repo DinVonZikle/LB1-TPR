@@ -1,6 +1,6 @@
-﻿public class Class1
+﻿public class DiscountManager
 {
-    public decimal Calculate(decimal amount, int type, int years)
+    public decimal CalculateDiscount(decimal amount, int type, int years)
     {
         decimal result = 0;
         decimal disc = (years > 5) ? (decimal)5 / 100 : (decimal)years / 100;
@@ -21,5 +21,11 @@
             result = (amount - (0.5m * amount)) - disc * (amount - (0.5m * amount));
         }
         return result;
+    }
+
+    public static void Main() 
+    {
+        DiscountManager clc = new DiscountManager();
+        Console.WriteLine("Current price is ${0}", clc.CalculateDiscount(16.04M, 0, 6));
     }
 }
