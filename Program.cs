@@ -1,25 +1,25 @@
 ﻿namespace LB1_TPR { 
     public class DiscountManager
     {
-        public decimal CalculateDiscount(decimal price, int type, int customerLoyaltyYears)
+        public decimal CalculateDiscount(decimal amount, int type, int years)
         {
             decimal priceAfterDiscount = 0;
-            decimal disc = (customerLoyaltyYears > 5) ? (decimal)5 / 100 : (decimal)customerLoyaltyYears / 100;
+            decimal disc = (years > 5) ? (decimal)5 / 100 : (decimal)years / 100;
             if (type == 1)
             {
-                priceAfterDiscount = price;
+                priceAfterDiscount = amount;
             }
             else if (type == 2)
             {
-                priceAfterDiscount = (price - (0.1m * price)) - disc * (price - (0.1m * price));
+                priceAfterDiscount = (amount - (0.1m * amount)) - disc * (amount - (0.1m * amount));
             }
             else if (type == 3)
             {
-                priceAfterDiscount = (0.7m * price) - disc * (0.7m * price);
+                priceAfterDiscount = (0.7m * amount) - disc * (0.7m * amount);
             }
             else if (type == 4)
             {
-                priceAfterDiscount = (price - (0.5m * price)) - disc * (price - (0.5m * price));
+                priceAfterDiscount = (amount - (0.5m * amount)) - disc * (amount - (0.5m * amount));
             }
             else
             {
