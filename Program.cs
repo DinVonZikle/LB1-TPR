@@ -21,13 +21,17 @@
             {
                 result = (amount - (0.5m * amount)) - disc * (amount - (0.5m * amount));
             }
+            else
+            {
+                return -1;
+            }
             return result;
         }
 
         public static void Main() 
         {
             DiscountManager clc = new DiscountManager();
-            Console.WriteLine("Current price is ${0}", clc.CalculateDiscount(16.04M, 0, 6));
+            Console.WriteLine(clc.CalculateDiscount(13.72M, 1, 0));
         }
     }
 }
