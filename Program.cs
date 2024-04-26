@@ -3,8 +3,9 @@
     {
         public decimal CalculateDiscount(decimal price, int type, int customerLoyaltyYears)
         {
+            int maximumYearsDiscount = 5;
             decimal priceAfterDiscount = 0;
-            decimal disc = (customerLoyaltyYears > 5) ? (decimal)5 / 100 : (decimal)customerLoyaltyYears / 100;
+            decimal disc = (customerLoyaltyYears > maximumYearsDiscount) ? (decimal)maximumYearsDiscount / 100 : (decimal)customerLoyaltyYears / 100;
             if (type == 1)
             {
                 priceAfterDiscount = price;
