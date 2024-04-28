@@ -1,35 +1,34 @@
-﻿namespace LB1_TPR { 
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
+namespace LB1_TPR
+{
     public class DiscountManager
     {
-        public decimal CalculateDiscount(decimal price, int type, int customerLoyaltyYears)
+        private readonly Dictionary<int, Func<decimal, int, decimal, decimal>> discountFormulas;
+
+        public DiscountManager()
         {
-            int maximumYearsDiscount = 5;
-            decimal priceAfterDiscount = 0;
-            decimal disc = (customerLoyaltyYears > maximumYearsDiscount) ? (decimal)maximumYearsDiscount / 100 : (decimal)customerLoyaltyYears / 100;
-            if (type == 1)
+            discountFormulas = new Dictionary<int, Func<decimal, int, decimal, decimal>>
             {
-                priceAfterDiscount = price;
-            }
-            else if (type == 2)
-            {
-                priceAfterDiscount = (price - (0.1m * price)) - disc * (price - (0.1m * price));
-            }
-            else if (type == 3)
-            {
-                priceAfterDiscount = (0.7m * price) - disc * (0.7m * price);
-            }
-            else if (type == 4)
-            {
-                priceAfterDiscount = (price - (0.5m * price)) - disc * (price - (0.5m * price));
-            }
-            else
-            {
-                return -1;
-            }
-            return priceAfterDiscount;
+                { 1, (price, customerLoyaltyYears, maximumDiscountPercent) => price },
+                { 2, (price, customerLoyaltyYears, maximumDiscountPercent) => price*0.9M - (Math.Min((decimal)customerLoyaltyYears / 100, maximumDiscountPercent)*(price*0.9M)) },
+                { 3, (price, customerLoyaltyYears, maximumDiscountPercent) => price*0.7M - (Math.Min((decimal)customerLoyaltyYears / 100, maximumDiscountPercent)*(price*0.7M)) },
+                { 4, (price, customerLoyaltyYears, maximumDiscountPercent) => price*0.5M - (Math.Min((decimal)customerLoyaltyYears / 100, maximumDiscountPercent)*(price*0.5M)) }
+            };
         }
 
-        public static void Main() 
+        public decimal CalculateDiscount(decimal price, int type, int customerLoyaltyYears)
+        {
+            if (!discountFormulas.ContainsKey(type))
+                return -1;
+
+            decimal maximumDiscountPercent = 0.05m;
+            return discountFormulas[type](price, customerLoyaltyYears, maximumDiscountPercent);
+        }
+
+        public static void Main()
         {
             DiscountManager clc = new DiscountManager();
             Console.WriteLine(clc.CalculateDiscount(13.72M, 1, 0));
